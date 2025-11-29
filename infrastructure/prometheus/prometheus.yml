@@ -1,0 +1,48 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'microservices-monitor'
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'api-gateway'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['api-gateway:3000']
+        labels:
+          service: 'api-gateway'
+          environment: 'production'
+
+  - job_name: 'auth-service'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['auth-service:3001']
+        labels:
+          service: 'auth-service'
+          environment: 'production'
+
+  - job_name: 'payments-service'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['payments-service:3002']
+        labels:
+          service: 'payments-service'
+          environment: 'production'
+
+  - job_name: 'notifications-service'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['notifications-service:3003']
+        labels:
+          service: 'notifications-service'
+          environment: 'production'
+
+  - job_name: 'rabbitmq'
+    static_configs:
+      - targets: ['rabbitmq:15692']
+        labels:
+          service: 'rabbitmq'
