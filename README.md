@@ -190,8 +190,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 👤 Author
 
 **Tu Nombre**
-- GitHub: [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
-- LinkedIn: [Tu LinkedIn](https://linkedin.com/in/tu-perfil)
+- GitHub: [@YOUR_USERNAME](https://github.com/ItalDao)
 
 ---
 
