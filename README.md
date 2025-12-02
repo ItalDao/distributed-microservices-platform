@@ -94,12 +94,22 @@ node test-auth.js
 curl http://localhost:3001/health
 ```
 
+### Testing Payments Service
+
+```bash
+# Run the test script  
+node test-payments.js
+
+# Or test manually
+curl http://localhost:3002/health
+```
+
 ### Access Points
 
-- **API Gateway**: http://localhost:3000
+- **API Gateway**: http://localhost:3000 (Coming soon)
 - **Auth Service**: http://localhost:3001
 - **Payments Service**: http://localhost:3002
-- **Notifications Service**: http://localhost:3003
+- **Notifications Service**: http://localhost:3003 (Coming soon)
 - **Grafana Dashboard**: http://localhost:3004 (admin/admin)
 - **Prometheus**: http://localhost:9090
 - **RabbitMQ Management**: http://localhost:15672 (guest/guest)
@@ -117,14 +127,18 @@ Handles user authentication and authorization with JWT tokens.
 
 **Status**: ✅ Fully implemented and tested
 
-### 🚧 Payments Service (IN PROGRESS)
+### ✅ Payments Service (COMPLETED)
 Processes payment transactions and maintains payment history.
 - Payment creation and processing
-- Transaction history
+- Transaction history with unique transaction IDs
+- Payment status management (pending, completed, failed, refunded)
+- Multiple payment methods support (credit card, debit card, PayPal, bank transfer)
 - MongoDB for payment records
 - Event publishing to RabbitMQ
+- Payment processing simulation
+- Full test coverage
 
-**Status**: 🚧 Coming soon
+**Status**: ✅ Fully implemented and tested
 
 ### 🚧 Notifications Service (IN PROGRESS)
 Sends notifications via email, SMS, or push notifications.
@@ -190,8 +204,8 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 👤 Author
 
 **Tu Nombre**
-- GitHub: [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
-- LinkedIn: [Tu LinkedIn](https://linkedin.com/in/tu-perfil)
+- GitHub: [@ItalDao](https://github.com/ItalDao)
+
 
 ---
 
