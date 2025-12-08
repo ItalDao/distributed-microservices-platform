@@ -36,12 +36,15 @@ A production-ready distributed system demonstrating modern software engineering 
 - **Microservices Architecture**: 3 independent services with clear boundaries
 - **Event-Driven Communication**: RabbitMQ for asynchronous messaging
 - **Polyglot Persistence**: PostgreSQL, MongoDB, and Redis
-- **API Gateway**: Centralized routing, rate limiting, and authentication
+- **API Gateway**: Centralized routing, rate limiting, and authentication (Coming soon)
 - **Observability**: Prometheus metrics + Grafana dashboards + Winston logging
 - **Containerization**: Full Docker support with Docker Compose
 - **Testing**: Unit, integration, and E2E tests with >80% coverage
-- **CI/CD**: Automated testing and deployment with GitHub Actions
+- **CI/CD**: Automated testing and deployment with GitHub Actions (Coming soon)
 - **Type Safety**: Full TypeScript implementation
+- **Email Notifications**: Automated emails with HTML templates
+- **Payment Processing**: Simulated payment gateway with transaction management
+- **Caching Layer**: Redis for performance optimization
 
 ## 🛠️ Tech Stack
 
@@ -70,17 +73,26 @@ A production-ready distributed system demonstrating modern software engineering 
 git clone https://github.com/YOUR_USERNAME/distributed-microservices-platform.git
 cd distributed-microservices-platform
 
-# Install dependencies for Auth Service
-cd services/auth-service
+# Start infrastructure with Docker
+cd infrastructure
+docker-compose up -d postgres mongodb redis rabbitmq
+
+# Install and start Auth Service
+cd ../services/auth-service
 npm install
 cp .env.example .env
+npm run start:dev
 
-# Start PostgreSQL and RabbitMQ with Docker
-cd ../../infrastructure
-docker-compose up -d postgres rabbitmq
+# Install and start Payments Service (in new terminal)
+cd ../payments-service
+npm install
+cp .env.example .env
+npm run start:dev
 
-# Start Auth Service in development mode
-cd ../services/auth-service
+# Install and start Notifications Service (in new terminal)
+cd ../notifications-service
+npm install
+cp .env.example .env
 npm run start:dev
 ```
 
@@ -102,6 +114,18 @@ node test-payments.js
 
 # Or test manually
 curl http://localhost:3002/health
+```
+
+### Testing Notifications Service
+
+```bash
+# Test health check
+curl http://localhost:3003/health
+
+# Test sending a notification
+curl -X POST http://localhost:3003/notifications/send \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","type":"welcome","data":{"firstName":"John","lastName":"Doe"}}'
 ```
 
 ### Access Points
@@ -140,14 +164,18 @@ Processes payment transactions and maintains payment history.
 
 **Status**: ✅ Fully implemented and tested
 
-### 🚧 Notifications Service (IN PROGRESS)
-Sends notifications via email, SMS, or push notifications.
-- Email notifications
-- Redis for caching templates
-- Event-driven architecture
-- Rate limiting
+### ✅ Notifications Service (COMPLETED)
+Sends notifications via email and manages notification templates.
+- Email notifications with HTML templates
+- Redis for template caching
+- Event-driven architecture (listens to RabbitMQ)
+- Rate limiting (1 notification per minute per email)
+- Welcome emails for new users
+- Payment confirmation emails
+- Template management with caching
+- Full monitoring and health checks
 
-**Status**: 🚧 Coming soon
+**Status**: ✅ Fully implemented and tested
 
 ## 🧪 Testing
 
@@ -204,9 +232,8 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 👤 Author
 
 **Tu Nombre**
-
-- GitHub: [@ItalDao](https://github.com/ItalDao)
-
+- GitHub: [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
+- LinkedIn: [Tu LinkedIn](https://linkedin.com/in/tu-perfil)
 
 ---
 
