@@ -66,21 +66,43 @@ A production-ready distributed system demonstrating modern software engineering 
 
 | Requirement | Version | Notes |
 |-------------|---------|-------|
-| Node.js | 18.0.0+ | Runtime environment |
+| Node.js | 18.0.0+ | Runtime environment (for local development) |
 | Docker | 20.10+ | Container runtime |
 | Docker Compose | 2.0+ | Container orchestration |
 | Git | 2.30+ | Version control |
 | RAM | 4GB minimum | For all services running simultaneously |
 | Disk Space | 2GB | For Docker images and data |
 
-### Installation Steps
+### Installation Steps (Docker Compose - Recommended)
+
+The fastest way to get everything running with one command:
 
 ```bash
 # Clone the repository
 git clone https://github.com/ItalDao/distributed-microservices-platform.git
 cd distributed-microservices-platform
 
-# Start infrastructure services with Docker
+# Start ALL services (API Gateway + 3 Microservices + Databases + Monitoring)
+docker-compose up -d
+
+# Wait 2-3 minutes for all services to start
+docker-compose logs -f
+
+# Done! All services are running
+```
+
+**That's it!** All services are now running. See the [DOCKER.md](./DOCKER.md) for more details and troubleshooting.
+
+### Alternative: Local Development Setup
+
+If you prefer to run services locally (not with Docker):
+
+```bash
+# Clone the repository
+git clone https://github.com/ItalDao/distributed-microservices-platform.git
+cd distributed-microservices-platform
+
+# Start only infrastructure services with Docker (Terminal 0)
 cd infrastructure
 docker-compose up -d postgres mongodb redis rabbitmq prometheus
 
@@ -401,6 +423,12 @@ npm run lint:fix
 ---
 
 ## Documentation
+
+### Quick References
+
+- [Docker Setup](./DOCKER.md) - Get everything running with one command
+
+### Comprehensive Guides
 
 - [Architecture Overview](./docs/architecture.md) - System design and patterns
 - [API Specifications](./docs/api-specs.md) - Complete API documentation
