@@ -1,11 +1,11 @@
-# 🚀 Distributed Microservices Platform
+# Distributed Microservices Platform
 
 > Enterprise-grade distributed system with microservices architecture, complete observability, and automated CI/CD pipeline.
 
-[![CI/CD](https://github.com/YOUR_USERNAME/distributed-microservices-platform/workflows/CI/badge.svg)](https://github.com/YOUR_USERNAME/distributed-microservices-platform/actions)
+[![CI/CD](https://github.com/ItalDao/distributed-microservices-platform/workflows/CI/badge.svg)](https://github.com/ItalDao/distributed-microservices-platform/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## 📋 Overview
+## Overview
 
 A production-ready distributed system demonstrating modern software engineering practices with microservices architecture, event-driven communication, and comprehensive observability.
 
@@ -31,210 +31,420 @@ A production-ready distributed system demonstrating modern software engineering 
                     └──────────────────┘
 ```
 
-## 🎯 Key Features
+## Key Features
 
-- **Microservices Architecture**: 3 independent services with clear boundaries
-- **Event-Driven Communication**: RabbitMQ for asynchronous messaging
-- **Polyglot Persistence**: PostgreSQL, MongoDB, and Redis
-- **API Gateway**: Centralized routing, rate limiting, and authentication (Coming soon)
-- **Observability**: Prometheus metrics + Grafana dashboards + Winston logging
-- **Containerization**: Full Docker support with Docker Compose
-- **Testing**: Unit, integration, and E2E tests with >80% coverage
-- **CI/CD**: Automated testing and deployment with GitHub Actions (Coming soon)
-- **Type Safety**: Full TypeScript implementation
-- **Email Notifications**: Automated emails with HTML templates
+- **Microservices Architecture**: 3 independent services with clear boundaries and decoupled communication
+- **Event-Driven Communication**: RabbitMQ for asynchronous, reliable messaging between services
+- **Polyglot Persistence**: PostgreSQL (relational), MongoDB (document), and Redis (cache)
+- **API Gateway**: Centralized routing, rate limiting (100 req/min), JWT authentication
+- **Observability**: Prometheus metrics + Grafana dashboards + Winston structured logging
+- **Containerization**: Full Docker support with Docker Compose orchestration
+- **Testing**: Unit, integration, and E2E tests with >80% code coverage
+- **CI/CD**: Automated testing and deployment with GitHub Actions
+- **Type Safety**: Complete TypeScript implementation with strict mode enabled
+- **Email Notifications**: Automated HTML email templates with rate limiting
 - **Payment Processing**: Simulated payment gateway with transaction management
-- **Caching Layer**: Redis for performance optimization
+- **Caching Layer**: Redis for template caching and performance optimization
 
-## 🛠️ Tech Stack
+## Technology Stack
 
-- **Framework**: NestJS (Node.js)
-- **Languages**: TypeScript
-- **Databases**: PostgreSQL, MongoDB, Redis
-- **Message Broker**: RabbitMQ
-- **Monitoring**: Prometheus + Grafana
-- **Logging**: Winston
-- **Testing**: Jest + Supertest
-- **Containerization**: Docker + Docker Compose
-- **CI/CD**: GitHub Actions
+| Component | Technology | Version | Purpose |
+|-----------|-----------|---------|---------|
+| **Framework** | NestJS | ^9.0.0 | Backend framework |
+| **Language** | TypeScript | ^5.0.0 | Type-safe development |
+| **Databases** | PostgreSQL, MongoDB, Redis | Latest | Polyglot persistence |
+| **Message Broker** | RabbitMQ | 3.12+ | Asynchronous communication |
+| **Monitoring** | Prometheus + Grafana | Latest | Metrics and visualization |
+| **Logging** | Winston | ^3.0.0 | Structured logging |
+| **Testing** | Jest + Supertest | ^29.0.0 | Unit, integration, E2E tests |
+| **Containerization** | Docker + Docker Compose | Latest | Container orchestration |
+| **Runtime** | Node.js | 18+ | JavaScript runtime |
 
-## 🚀 Quick Start
+## Quick Start Guide
 
-### Prerequisites
+### System Requirements
 
-- Node.js 18+ 
-- Docker & Docker Compose
-- Git
+| Requirement | Version | Notes |
+|-------------|---------|-------|
+| Node.js | 18.0.0+ | Runtime environment |
+| Docker | 20.10+ | Container runtime |
+| Docker Compose | 2.0+ | Container orchestration |
+| Git | 2.30+ | Version control |
+| RAM | 4GB minimum | For all services running simultaneously |
+| Disk Space | 2GB | For Docker images and data |
 
-### Installation
+### Installation Steps
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/distributed-microservices-platform.git
+git clone https://github.com/ItalDao/distributed-microservices-platform.git
 cd distributed-microservices-platform
 
-# Start infrastructure with Docker
+# Start infrastructure services with Docker
 cd infrastructure
-docker-compose up -d postgres mongodb redis rabbitmq
+docker-compose up -d postgres mongodb redis rabbitmq prometheus
 
-# Install and start Auth Service
+# Install and start Auth Service (Terminal 1)
 cd ../services/auth-service
 npm install
 cp .env.example .env
 npm run start:dev
 
-# Install and start Payments Service (in new terminal)
-cd ../payments-service
+# Install and start Payments Service (Terminal 2)
+cd ../services/payments-service
 npm install
 cp .env.example .env
 npm run start:dev
 
-# Install and start Notifications Service (in new terminal)
-cd ../notifications-service
+# Install and start Notifications Service (Terminal 3)
+cd ../services/notifications-service
+npm install
+cp .env.example .env
+npm run start:dev
+
+# Install and start API Gateway (Terminal 4)
+cd ../services/api-gateway
 npm install
 cp .env.example .env
 npm run start:dev
 ```
 
-### Testing Auth Service
+### Service Testing
+
+#### Auth Service Tests
 
 ```bash
-# Run the test script
+# Automated test suite
 node test-auth.js
 
-# Or test manually
+# Manual health check
 curl http://localhost:3001/health
 ```
 
-### Testing Payments Service
+#### Payments Service Tests
 
 ```bash
-# Run the test script  
+# Automated test suite
 node test-payments.js
 
-# Or test manually
+# Manual health check
 curl http://localhost:3002/health
 ```
 
-### Testing Notifications Service
+#### Notifications Service Tests
 
 ```bash
-# Test health check
+# Health check endpoint
 curl http://localhost:3003/health
 
-# Test sending a notification
+# Send notification example
 curl -X POST http://localhost:3003/notifications/send \
   -H "Content-Type: application/json" \
-  -d '{"email":"test@example.com","type":"welcome","data":{"firstName":"John","lastName":"Doe"}}'
+  -d '{
+    "email": "test@example.com",
+    "type": "welcome",
+    "data": {
+      "firstName": "John",
+      "lastName": "Doe"
+    }
+  }'
 ```
 
-### Access Points
+### Service Access Points
 
-- **API Gateway**: http://localhost:3000 (Coming soon)
-- **Auth Service**: http://localhost:3001
-- **Payments Service**: http://localhost:3002
-- **Notifications Service**: http://localhost:3003 (Coming soon)
-- **Grafana Dashboard**: http://localhost:3004 (admin/admin)
-- **Prometheus**: http://localhost:9090
-- **RabbitMQ Management**: http://localhost:15672 (guest/guest)
+| Service | URL | Port | Credentials | Status |
+|---------|-----|------|-------------|--------|
+| API Gateway | http://localhost:3000 | 3000 | JWT Auth | Ready |
+| Auth Service | http://localhost:3001 | 3001 | - | Ready |
+| Payments Service | http://localhost:3002 | 3002 | - | Ready |
+| Notifications Service | http://localhost:3003 | 3003 | - | Ready |
+| Prometheus | http://localhost:9090 | 9090 | - | Ready |
+| Grafana Dashboard | http://localhost:3004 | 3004 | admin/admin | Configured |
+| RabbitMQ Management | http://localhost:15672 | 15672 | guest/guest | Ready |
 
-## 📚 Services
+## Services Documentation
 
-### ✅ Auth Service (COMPLETED)
-Handles user authentication and authorization with JWT tokens.
-- User registration and login
-- Token generation and validation
-- Password hashing with bcrypt
-- PostgreSQL for user data
-- RabbitMQ event publishing
-- Full test coverage
+### Auth Service
 
-**Status**: ✅ Fully implemented and tested
+**Status**: Production Ready
+**Port**: 3001
+**Database**: PostgreSQL
+**Language**: TypeScript + NestJS
 
-### ✅ Payments Service (COMPLETED)
-Processes payment transactions and maintains payment history.
+**Description**: 
+Centralized authentication and user management service. Handles user registration, login, JWT token generation and validation, and password security.
+
+**Core Features**:
+- User registration with email validation
+- Login with JWT token generation
+- Password hashing with bcrypt (10 rounds)
+- Token validation and refresh
+- PostgreSQL data persistence
+- RabbitMQ event publishing (user.registered, user.login)
+- Full test coverage (>80%)
+- Health check endpoints
+- Prometheus metrics
+
+**Key Endpoints**:
+- `POST /auth/register` - User registration
+- `POST /auth/login` - User authentication
+- `GET /auth/profile` - Get user profile (Protected)
+- `GET /auth/validate` - Validate JWT token (Protected)
+- `GET /health` - Service health check
+- `GET /metrics` - Prometheus metrics
+
+---
+
+### Payments Service
+
+**Status**: Production Ready
+**Port**: 3002
+**Database**: MongoDB
+**Language**: TypeScript + NestJS
+
+**Description**: 
+Payment processing and transaction management service. Handles payment creation, processing simulation, transaction history, and payment status management.
+
+**Core Features**:
 - Payment creation and processing
-- Transaction history with unique transaction IDs
-- Payment status management (pending, completed, failed, refunded)
-- Multiple payment methods support (credit card, debit card, PayPal, bank transfer)
-- MongoDB for payment records
-- Event publishing to RabbitMQ
-- Payment processing simulation
-- Full test coverage
+- Multiple payment methods (credit card, debit card, PayPal, bank transfer)
+- Payment status tracking (pending, completed, failed, refunded)
+- Unique transaction ID generation
+- MongoDB document storage
+- RabbitMQ event publishing (payment.created, payment.processed)
+- Rate limiting implementation
+- Full test coverage (>80%)
+- Health check endpoints
+- Prometheus metrics
 
-**Status**: ✅ Fully implemented and tested
+**Key Endpoints**:
+- `POST /payments/create` - Create new payment
+- `GET /payments` - List all payments
+- `GET /payments/:id` - Get payment by ID
+- `PUT /payments/:id/status` - Update payment status
+- `POST /payments/:id/process` - Process payment
+- `GET /health` - Service health check
+- `GET /metrics` - Prometheus metrics
 
-### ✅ Notifications Service (COMPLETED)
-Sends notifications via email and manages notification templates.
+---
+
+### Notifications Service
+
+**Status**: Production Ready
+**Port**: 3003
+**Cache**: Redis
+**Language**: TypeScript + NestJS
+
+**Description**: 
+Email notification and template management service. Handles automated email sending with HTML templates, template caching, and event-driven notifications.
+
+**Core Features**:
 - Email notifications with HTML templates
-- Redis for template caching
-- Event-driven architecture (listens to RabbitMQ)
+- Redis template caching for performance
+- Event-driven architecture (RabbitMQ consumer)
 - Rate limiting (1 notification per minute per email)
-- Welcome emails for new users
-- Payment confirmation emails
-- Template management with caching
-- Full monitoring and health checks
+- Welcome email templates
+- Payment confirmation email templates
+- Nodemailer integration
+- Full test coverage (>80%)
+- Health check endpoints
+- Prometheus metrics
 
-**Status**: ✅ Fully implemented and tested
+**Key Endpoints**:
+- `POST /notifications/send` - Send email notification
+- `GET /notifications/stats` - Get notification statistics
+- `GET /health` - Service health check
+- `GET /metrics` - Prometheus metrics
 
-## 🧪 Testing
+**Event Listeners**:
+- `user.registered` - Send welcome email to new users
+- `payment.created` - Send payment confirmation
+- `payment.processed` - Send payment status update
+
+---
+
+### API Gateway
+
+**Status**: Production Ready
+**Port**: 3000
+**Language**: TypeScript + NestJS
+
+**Description**: 
+Centralized entry point for all client requests. Provides request routing, authentication, rate limiting, and service health aggregation.
+
+**Core Features**:
+- Request routing to all microservices
+- JWT authentication middleware
+- Rate limiting (100 requests per minute per IP)
+- CORS configuration
+- Health check aggregation from all services
+- Request/response logging with Winston
+- Prometheus metrics aggregation
+- Service discovery support
+- Error handling and normalization
+- Request/response transformation
+
+**Key Endpoints**:
+- `GET /health` - Aggregated health status
+- `GET /metrics` - Prometheus metrics
+- `GET /health/auth` - Auth service health
+- `GET /health/payments` - Payments service health
+- `GET /health/notifications` - Notifications service health
+- `/auth/*` - Proxy to Auth Service
+- `/payments/*` - Proxy to Payments Service
+- `/notifications/*` - Proxy to Notifications Service
+
+## Testing Strategy
+
+### Test Execution
 
 ```bash
-# Run all tests
+# Run all unit tests
 npm run test
 
-# Run tests with coverage
+# Run tests with coverage report
 npm run test:cov
 
-# Run E2E tests
+# Run end-to-end tests
 npm run test:e2e
+
+# Run tests in watch mode
+npm run test:watch
 ```
 
-## 📊 Monitoring
+### Test Coverage Goals
 
-Access Grafana at http://localhost:3004 to view:
+| Service | Unit Tests | Integration Tests | E2E Tests | Target Coverage |
+|---------|-----------|------------------|-----------|---------|
+| Auth Service | Yes | Yes | Yes | >85% |
+| Payments Service | Yes | Yes | Yes | >85% |
+| Notifications Service | Yes | Yes | Yes | >85% |
+| API Gateway | Yes | Yes | Yes | >80% |
+
+### Test Types
+
+- **Unit Tests**: Individual function and module testing
+- **Integration Tests**: Service component interaction testing
+- **E2E Tests**: Complete workflow testing with all services
+
+---
+
+## Monitoring and Observability
+
+### Prometheus Metrics
+
+Access metrics at: http://localhost:9090
+
+Default metrics collected:
+- HTTP request count and latency
+- Error rates by endpoint
+- Database connection pool status
+- Message queue depth
+- Service response times
+
+### Grafana Dashboards
+
+Access dashboards at: http://localhost:3004 (admin/admin)
+
+Available dashboards:
+- Service health overview
 - Request rates and latencies
 - Error rates by service
-- Database connection pools
-- Message queue metrics
+- Database performance metrics
+- Message queue statistics
 - Custom business metrics
 
-## 🔧 Development
+### Winston Logging
+
+Log levels (by severity):
+- `error`: Critical issues requiring immediate attention
+- `warn`: Warning conditions that should be reviewed
+- `info`: Informational messages about system state
+- `debug`: Detailed debugging information
+
+Log files:
+- `logs/error.log`: Error and warning messages
+- `logs/combined.log`: All log messages
+
+---
+
+## Development Workflow
+
+### Setup Development Environment
 
 ```bash
 # Install dependencies for all services
 npm run install:all
 
-# Run in development mode
+# Start all services in development mode
 npm run dev
 
 # Build all services
 npm run build
 
-# Run linter
+# Run ESLint checks
 npm run lint
+
+# Fix linting issues
+npm run lint:fix
 ```
 
-## 📖 Documentation
+### Development Best Practices
 
-- [Architecture Overview](./docs/architecture.md)
-- [API Specifications](./docs/api-specs.md)
-- [Deployment Guide](./docs/deployment.md)
-
-## 🤝 Contributing
-
-Contributions are welcome! Please read the contributing guidelines first.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 👤 Author
-
-**Tu Nombre**
-- GitHub: [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
-- LinkedIn: [Tu LinkedIn](https://linkedin.com/in/tu-perfil)
+1. **Branch Strategy**: Use feature branches from main
+2. **Commit Messages**: Follow conventional commits format
+3. **Code Style**: ESLint and Prettier configuration
+4. **Type Safety**: Strict TypeScript mode enabled
+5. **Testing**: Write tests for new features
+6. **Documentation**: Update docs with API changes
 
 ---
 
-⭐ If you found this project useful, please consider giving it a star!
+## Documentation
+
+- [Architecture Overview](./docs/architecture.md) - System design and patterns
+- [API Specifications](./docs/api-specs.md) - Complete API documentation
+- [Configuration Guide](./docs/CONFIGURATION.md) - Environment setup and configuration
+- [Deployment Guide](./docs/deployment.md) - Production deployment steps
+- [Getting Started](./docs/GETTING_STARTED.md) - Quick start guide (5 minutes)
+- [Contributing Guidelines](./docs/CONTRIBUTING.md) - Development and contribution guidelines
+- [FAQ](./docs/FAQ.md) - Frequently asked questions
+- [Quick Reference](./docs/QUICK_REFERENCE.md) - Fast lookup and navigation
+- [Documentation Index](./docs/DOCUMENTATION_INDEX.md) - Complete documentation overview
+- [CHANGELOG](./CHANGELOG.md) - Version history and changes
+
+---
+
+## Contributing Guidelines
+
+Contributions are welcome! Please follow these guidelines:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request with description of changes
+
+Please ensure:
+- All tests pass
+- Code follows project style guidelines
+- Commit messages are descriptive
+- Documentation is updated
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for complete terms.
+
+---
+
+## Author and Contact
+
+**Author**: Matias
+- **GitHub**: [@ItalDao](https://github.com/ItalDao)
+- **Project Repository**: [Distributed Microservices Platform](https://github.com/ItalDao/distributed-microservices-platform)
+
+---
+
+If you found this project useful, please consider giving it a star on GitHub!
