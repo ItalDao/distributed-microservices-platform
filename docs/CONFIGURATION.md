@@ -354,13 +354,13 @@ NODE_ENV=production
 PORT=3000
 LOG_LEVEL=warn                                # Reduce logs in production
 
-# Database Configuration (Use managed services)
-AUTH_DATABASE_URL=postgresql://user:password@prod-postgres.rds.amazonaws.com:5432/auth_db
-PAYMENTS_DATABASE_URL=mongodb+srv://user:password@prod-mongo.mongodb.net/payments_db
-REDIS_URL=redis://:password@prod-redis.elasticache.amazonaws.com:6379
+# Database Configuration (Use managed services - NEVER commit real credentials!)
+AUTH_DATABASE_URL=postgresql://<USERNAME>:<PASSWORD>@<HOST>:5432/auth_db
+PAYMENTS_DATABASE_URL=mongodb+srv://<USERNAME>:<PASSWORD>@<CLUSTER>.mongodb.net/payments_db
+REDIS_URL=redis://:<PASSWORD>@<HOST>:6379
 
 # JWT Configuration
-JWT_SECRET=PRODUCTION_SECURE_JWT_SECRET_MIN_32_CHARS_CHANGE_ME
+JWT_SECRET=<GENERATE_SECURE_32_CHAR_SECRET>
 JWT_EXPIRATION=24h
 
 # Microservice URLs (Internal DNS)

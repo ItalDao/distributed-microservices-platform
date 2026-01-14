@@ -101,7 +101,7 @@ NODE_ENV=staging
 LOG_LEVEL=info
 DB_HOST=staging-postgres.internal
 REDIS_URL=redis://staging-redis.internal:6379
-RABBITMQ_URL=amqp://user:password@staging-rabbitmq.internal:5672
+RABBITMQ_URL=amqp://<USERNAME>:<PASSWORD>@staging-rabbitmq.internal:5672
 JWT_SECRET=<secure-random-secret>
 API_GATEWAY_RATE_LIMIT=100
 ```
@@ -220,7 +220,7 @@ SSL_CERT_PATH=/etc/ssl/certs/
 **Initial Setup**:
 ```bash
 # Create user and database
-CREATE USER api_user WITH PASSWORD 'secure_password';
+CREATE USER api_user WITH PASSWORD '<SECURE_PASSWORD>';
 CREATE DATABASE platform_db OWNER api_user;
 
 # Grant privileges
@@ -291,11 +291,11 @@ rs.status()
 **Backup Strategy**:
 ```bash
 # Backup database
-mongodump --uri="mongodb://user:password@localhost:27017/platform_db" \
+mongodump --uri="mongodb://<USERNAME>:<PASSWORD>@localhost:27017/platform_db" \
   --out=/backup/$(date +%Y%m%d)
 
 # Restore from backup
-mongorestore --uri="mongodb://user:password@localhost:27017" \
+mongorestore --uri="mongodb://<USERNAME>:<PASSWORD>@localhost:27017" \
   /backup/20240101
 ```
 
@@ -425,7 +425,7 @@ services:
     image: myregistry/auth-service:v1.0.0
     container_name: auth-service
     environment:
-      DATABASE_URL: postgresql://api_user:password@postgres:5432/platform_db
+      DATABASE_URL: postgresql://api_user:<PASSWORD>@postgres:5432/platform_db
       RABBITMQ_URL: amqp://rabbitmq:5672
     depends_on:
       - postgres
@@ -438,7 +438,7 @@ services:
     image: postgres:15-alpine
     environment:
       POSTGRES_USER: api_user
-      POSTGRES_PASSWORD: secure_password
+      POSTGRES_PASSWORD: <SECURE_PASSWORD>
       POSTGRES_DB: platform_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
