@@ -1,44 +1,30 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { authAPI } from '../utils/api'
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth, useUsers } from '../../shared/hooks';
 
-export default function Dashboard() {
-  const [users, setUsers] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
-  const navigate = useNavigate()
+const Dashboard: React.FC = () => {
+  const { logout } = useAuth();
+  const { users, isLoading, error, fetchUsers, deleteUser } = useUsers();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchUsers()
-  }, [])
+    fetchUsers();
+  }, [fetchUsers]);
 
-  const fetchUsers = async () => {
+  const handleLogout = (): void => {
+    logout();
+    navigate('/login');
+  };
+
+  const handleDelete = async (id: string): Promise<void> => {
+    if (!window.confirm('Are you sure you want to delete this user?')) return;
+
     try {
-      const response = await authAPI.getUsers()
-      setUsers(response.data)
-    } catch (err) {
-      setError('Failed to load users')
-    } finally {
-      setLoading(false)
+      await deleteUser(id);
+    } catch {
+      console.error('Failed to delete user');
     }
-  }
-
-  const handleLogout = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
-    navigate('/login')
-  }
-
-  const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure?')) return
-    
-    try {
-      await authAPI.deleteUser(id)
-      setUsers(users.filter(u => u.id !== id))
-    } catch (err) {
-      setError('Failed to delete user')
-    }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -47,7 +33,7 @@ export default function Dashboard() {
         <h1 className="text-2xl font-bold text-blue-600">Dashboard</h1>
         <button
           onClick={handleLogout}
-          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
         >
           Logout
         </button>
@@ -55,7 +41,7 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <div className="p-8">
-        <h2 className="text-3xl font-bold mb-6 text-gray-800">Users</h2>
+        <h2 className="text-3xl font-bold mb-6 text-gray-800">Users Management</h2>
 
         {error && (
           <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
@@ -63,8 +49,8 @@ export default function Dashboard() {
           </div>
         )}
 
-        {loading ? (
-          <div className="text-center py-8 text-gray-500">Loading...</div>
+        {isLoading ? (
+          <div className="text-center py-8 text-gray-500">Loading users...</div>
         ) : users.length === 0 ? (
           <div className="text-center py-8 text-gray-500">No users found</div>
         ) : (
@@ -76,13 +62,15 @@ export default function Dashboard() {
                   <th className="px-6 py-3 text-left text-gray-700 font-semibold">Email</th>
                   <th className="px-6 py-3 text-left text-gray-700 font-semibold">Name</th>
                   <th className="px-6 py-3 text-left text-gray-700 font-semibold">Created</th>
-                  <th className="px-6 py-3 text-center text-gray-700 font-semibold">Action</th>
+                  <th className="px-6 py-3 text-center text-gray-700 font-semibold">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {users.map((user) => (
                   <tr key={user.id} className="border-b hover:bg-gray-50">
-                    <td className="px-6 py-3 text-sm text-gray-600">{user.id.substring(0, 8)}...</td>
+                    <td className="px-6 py-3 text-sm text-gray-600 font-mono">
+                      {user.id.substring(0, 8)}...
+                    </td>
                     <td className="px-6 py-3 text-sm text-gray-600">{user.email}</td>
                     <td className="px-6 py-3 text-sm text-gray-600">
                       {user.firstName} {user.lastName}
@@ -93,7 +81,7 @@ export default function Dashboard() {
                     <td className="px-6 py-3 text-center">
                       <button
                         onClick={() => handleDelete(user.id)}
-                        className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600"
+                        className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600 transition"
                       >
                         Delete
                       </button>
@@ -106,5 +94,7 @@ export default function Dashboard() {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
+
+export default Dashboard;
