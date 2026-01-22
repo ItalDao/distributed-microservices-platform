@@ -21,7 +21,7 @@ export const useAuth = (): UseAuthReturn => {
     setError(null);
     try {
       const response = await authService.login(credentials);
-      localStorage.setItem('token', response.access_token);
+      localStorage.setItem('token', response.accessToken);
       localStorage.setItem('user', JSON.stringify(response.user));
       setUser(response.user);
     } catch (err: any) {

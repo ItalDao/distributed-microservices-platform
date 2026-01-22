@@ -41,6 +41,11 @@ export class ProxyController {
     return this.forwardToService('auth', path, req, res);
   }
 
+  @All('users')
+  async usersRoot(@Req() req: Request, @Res() res: Response) {
+    return this.forwardToService('auth', '/users', req, res);
+  }
+
   // Payments Service Routes
   @All('payments/*')
   async paymentsRoutes(@Req() req: Request, @Res() res: Response) {
