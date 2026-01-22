@@ -156,12 +156,11 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3001
-      DATABASE_HOST: postgres
-      DATABASE_PORT: 5432
-      DATABASE_USER: admin
-      DATABASE_PASSWORD: admin123
-      DATABASE_NAME: auth_db
-      DATABASE_SSL: 'false'
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: admin
+      DB_PASSWORD: admin123
+      DB_NAME: auth_db
       JWT_SECRET: your_super_secret_jwt_key_change_in_production
       JWT_EXPIRATION: 3600
       BCRYPT_ROUNDS: 10
@@ -201,12 +200,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3002
-      DATABASE_HOST: mongodb
-      DATABASE_PORT: 27017
-      DATABASE_USER: admin
-      DATABASE_PASSWORD: admin123
-      DATABASE_NAME: payments_db
-      DATABASE_REPLICA_SET: ''
+      MONGODB_URI: mongodb://admin:admin123@mongodb:27017/payments_db?authSource=admin
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
       RABBITMQ_USER: admin
