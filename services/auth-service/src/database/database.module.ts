@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import { User } from '../users/entities/user.entity';
+import { randomUUID } from 'crypto';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { User } from '../users/entities/user.entity';
         entities: [User],
         synchronize: true, // Set to false in production
         logging: process.env.NODE_ENV === 'development',
+        uuid: 'uuid4',
       }),
     }),
   ],
