@@ -45,6 +45,7 @@ describe('AuthService - Unit Tests', () => {
 
       mockUserRepository.findOne.mockResolvedValue(mockUser);
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const result: typeof mockUser = await mockUserRepository.findOne({
         where: { email: 'test@example.com' },
       });
@@ -66,8 +67,11 @@ describe('AuthService - Unit Tests', () => {
       mockUserRepository.create.mockReturnValue(newUser);
       mockUserRepository.save.mockResolvedValue({ id: 'uuid-new', ...newUser });
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const created: typeof newUser = mockUserRepository.create(newUser);
-      const saved: typeof newUser & { id: string } = await mockUserRepository.save(created);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const saved: typeof newUser & { id: string } =
+        await mockUserRepository.save(created);
 
       expect(saved.id).toBe('uuid-new');
       expect(saved.email).toBe('new@example.com');
@@ -77,6 +81,7 @@ describe('AuthService - Unit Tests', () => {
   describe('JWT token generation', () => {
     it('should generate JWT token', () => {
       const payload = { email: 'test@example.com', sub: 'uuid-123' };
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const token: string = mockJwtService.sign(payload);
 
       expect(token).toBe('test-token');
