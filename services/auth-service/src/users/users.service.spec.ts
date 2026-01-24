@@ -1,18 +1,19 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
-
 describe('UsersService', () => {
-  let mockUserRepository: any;
+  let mockUserRepository: {
+    find: jest.Mock;
+    findOne: jest.Mock;
+    findOneBy: jest.Mock;
+    delete: jest.Mock;
+    update: jest.Mock;
+  };
 
-  beforeEach(async () => {
+  beforeEach(() => {
     mockUserRepository = {
       find: jest.fn(),
       findOne: jest.fn(),
       findOneBy: jest.fn(),
       delete: jest.fn(),
       update: jest.fn(),
-      save: jest.fn(),
     };
   });
 

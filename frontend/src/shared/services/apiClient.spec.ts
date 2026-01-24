@@ -53,7 +53,7 @@ describe('apiClient', () => {
   it('should include token in request headers', () => {
     localStorage.setItem('token', 'valid-token');
 
-    const config = {
+    const config: { headers: Record<string, string> } = {
       headers: {},
     };
 
