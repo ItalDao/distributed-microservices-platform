@@ -1,0 +1,46 @@
+name: Documentation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - '**.md'
+  workflow_dispatch:
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Validate markdown
+        uses: DavidAnson/markdownlint-cli2-action@v13
+        with:
+          globs: '**/*.md'
+      
+      - name: Check links
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          config-file: '.github/markdown-link-check-config.json'
+      
+      - name: Build documentation site
+        run: |
+          echo "Add documentation build steps here"
+          # Example: npm run docs:build
+          # Example: mkdocs build
+
+  deploy-docs:
+    runs-on: ubuntu-latest
+    needs: build-docs
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Deploy to GitHub Pages
+        run: |
+          echo "Add GitHub Pages deployment here"
+          # Example: npm run docs:deploy
