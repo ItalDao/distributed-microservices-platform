@@ -26,6 +26,7 @@ vi.mock('../../shared/hooks/useUsers', () => ({
     ],
     isLoading: false,
     error: null,
+    fetchUsers: vi.fn().mockResolvedValue(undefined),
     deleteUser: vi.fn().mockResolvedValue(undefined),
   }),
 }));

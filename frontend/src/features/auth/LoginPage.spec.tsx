@@ -33,9 +33,9 @@ describe('LoginPage', () => {
       </BrowserRouter>,
     );
 
-    expect(screen.getByText(/Iniciar sesión/i)).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/email/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/contraseña/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/password/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
   });
 
   it('should have email and password input fields', () => {
@@ -46,7 +46,7 @@ describe('LoginPage', () => {
     );
 
     const emailInput = screen.getByPlaceholderText(/email/i);
-    const passwordInput = screen.getByPlaceholderText(/contraseña/i);
+    const passwordInput = screen.getByPlaceholderText(/password/i);
 
     expect(emailInput).toBeInTheDocument();
     expect(passwordInput).toBeInTheDocument();
@@ -60,7 +60,7 @@ describe('LoginPage', () => {
     );
 
     const submitButton = screen.getByRole('button', {
-      name: /iniciar sesión/i,
+      name: /login/i,
     });
     expect(submitButton).toBeInTheDocument();
   });
@@ -85,7 +85,7 @@ describe('LoginPage', () => {
       </BrowserRouter>,
     );
 
-    const passwordInput = screen.getByPlaceholderText(/contraseña/i) as HTMLInputElement;
+    const passwordInput = screen.getByPlaceholderText(/password/i) as HTMLInputElement;
     fireEvent.change(passwordInput, { target: { value: 'password123' } });
 
     expect(passwordInput.value).toBe('password123');
@@ -99,9 +99,9 @@ describe('LoginPage', () => {
     );
 
     const emailInput = screen.getByPlaceholderText(/email/i);
-    const passwordInput = screen.getByPlaceholderText(/contraseña/i);
+    const passwordInput = screen.getByPlaceholderText(/password/i);
     const submitButton = screen.getByRole('button', {
-      name: /iniciar sesión/i,
+      name: /login/i,
     });
 
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });

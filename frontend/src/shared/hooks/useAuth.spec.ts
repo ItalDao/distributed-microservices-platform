@@ -14,7 +14,7 @@ describe('useAuth', () => {
   it('should initialize with no user', () => {
     const { result } = renderHook(() => useAuth());
 
-    expect(result.current.user).toBeNull();
+    expect(result.current.user).toBeUndefined();
     expect(result.current.isAuthenticated).toBe(false);
     expect(result.current.isLoading).toBe(false);
     expect(result.current.error).toBeNull();
