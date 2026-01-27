@@ -165,7 +165,7 @@ npm test -- --watch
 - Mock repository patterns
 - Type-safe mocking strategies
 
-See [TESTING.md](./TESTING.md) for complete testing documentation and best practices.
+See [TESTING.md](./docs/TESTING.md) for complete testing documentation and best practices.
 
 ### Manual Service Testing
 
