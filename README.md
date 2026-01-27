@@ -1,9 +1,6 @@
 # Distributed Microservices Platform
 
-> Enterprise-grade distributed system with microservices architecture, complete observability, and automated CI/CD pipeline.
-
-[![CI/CD](https://github.com/ItalDao/distributed-microservices-platform/workflows/CI/badge.svg)](https://github.com/ItalDao/distributed-microservices-platform/actions)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+Enterprise-grade distributed system implementing microservices architecture with complete observability and automated deployment pipeline.
 
 ## Overview
 
@@ -31,20 +28,20 @@ A production-ready distributed system demonstrating modern software engineering 
                     └──────────────────┘
 ```
 
-## Key Features
+## System Capabilities
 
-- **Microservices Architecture**: 3 independent services with clear boundaries and decoupled communication
-- **Event-Driven Communication**: RabbitMQ for asynchronous, reliable messaging between services
-- **Polyglot Persistence**: PostgreSQL (relational), MongoDB (document), and Redis (cache)
-- **API Gateway**: Centralized routing, rate limiting (100 req/min), JWT authentication
-- **Observability**: Prometheus metrics + Grafana dashboards + Winston structured logging
-- **Containerization**: Full Docker support with Docker Compose orchestration
-- **Testing**: Unit, integration, and E2E tests with >80% code coverage
-- **CI/CD**: Automated testing and deployment with GitHub Actions
-- **Type Safety**: Complete TypeScript implementation with strict mode enabled
-- **Email Notifications**: Automated HTML email templates with rate limiting
-- **Payment Processing**: Simulated payment gateway with transaction management
-- **Caching Layer**: Redis for template caching and performance optimization
+- Microservices Architecture: 3 independent services with decoupled communication patterns
+- Event-Driven Communication: RabbitMQ messaging broker for asynchronous inter-service communication
+- Polyglot Persistence: PostgreSQL for relational data, MongoDB for documents, Redis for caching
+- API Gateway: Centralized routing with rate limiting and JWT authentication
+- Observability: Prometheus metrics collection and Grafana visualization dashboards
+- Containerization: Docker and Docker Compose for service orchestration
+- Automated Testing: Unit tests covering all services and application layers
+- CI/CD Pipeline: GitHub Actions for automated testing and deployment
+- Type Safety: TypeScript with strict mode throughout the codebase
+- Email Notifications: Service for automated email delivery with templates
+- Payment Processing: Payment service with transaction management
+- Caching: Redis-based caching layer for performance optimization
 
 ## Technology Stack
 
@@ -131,45 +128,92 @@ cp .env.example .env
 npm run start:dev
 ```
 
-### Service Testing
+## Testing
 
-#### Auth Service Tests
+### Backend Unit Tests - Recommended Approach
+
+All backend tests are fast, reliable, and passing:
 
 ```bash
-# Automated test suite
-node test-auth.js
+# Run all backend tests
+cd services/auth-service
+npm test
 
-# Manual health check
-curl http://localhost:3001/health
+# Run specific test file
+npm test -- auth.service.spec.ts      # 10 tests
+npm test -- users.service.spec.ts     # 8 tests
+
+# Run with coverage report
+npm test -- --coverage
+
+# Watch mode for development
+npm test -- --watch
 ```
 
-#### Payments Service Tests
+**Test Coverage Summary:**
+- Auth Service: 10/10 tests passing
+- Users Service: 8/8 tests passing  
+- App Controller: 1/1 test passing
+- Total: 19/19 tests (under 5 seconds execution)
+
+**What's Tested:**
+- Password hashing and security
+- JWT token generation and validation
+- Email format validation
+- Password strength validation
+- User CRUD operations
+- Mock repository patterns
+- Type-safe mocking strategies
+
+See [TESTING.md](./TESTING.md) for complete testing documentation and best practices.
+
+### Manual Service Testing
+
+#### Auth Service Health Check
 
 ```bash
-# Automated test suite
-node test-payments.js
+# Health check endpoint
+curl http://localhost:3001/health
 
-# Manual health check
+# Login and get JWT token
+curl -X POST http://localhost:3001/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "password123"
+  }'
+
+# Get all users (requires JWT token)
+curl -H "Authorization: Bearer <your_token>" \
+  http://localhost:3001/users
+```
+
+#### Payments Service Health Check
+
+```bash
+# Health check endpoint
 curl http://localhost:3002/health
 ```
 
-#### Notifications Service Tests
+#### Notifications Service Health Check
 
 ```bash
 # Health check endpoint
 curl http://localhost:3003/health
+```
 
-# Send notification example
-curl -X POST http://localhost:3003/notifications/send \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "test@example.com",
-    "type": "welcome",
-    "data": {
-      "firstName": "John",
-      "lastName": "Doe"
-    }
-  }'
+### Frontend Manual Testing
+
+The frontend is fully functional and can be tested manually:
+
+```bash
+cd frontend
+npm run dev
+
+# Open http://localhost:5173
+# Test login with backend credentials
+# Verify dashboard loads user data
+# Test logout functionality
 ```
 
 ### Service Access Points
