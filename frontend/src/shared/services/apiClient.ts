@@ -11,13 +11,24 @@ export const apiClient: AxiosInstance = axios.create({
 });
 
 // Request interceptor - Add token
-apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+// Request interceptor - Add token (defensive: guard against undefined headers/interceptors in test env)
+if (apiClient && apiClient.interceptors && apiClient.interceptors.request) {
+  apiClient.interceptors.request.use((config) => {
+    try {
+      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null;
+      if (token) {
+        // ensure headers object exists
+        config.headers = config.headers || {};
+        // set Authorization header in a safe way
+        // @ts-ignore - axios header types can be loose in tests
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    } catch (e) {
+      // Silently ignore issues accessing localStorage in non-browser test environments
+    }
+    return config;
+  });
+}
 
 // Response interceptor - Handle errors
 apiClient.interceptors.response.use(
