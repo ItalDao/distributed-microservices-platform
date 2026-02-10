@@ -24,6 +24,28 @@ Notifications Service: http://localhost:3003
 Prometheus: http://localhost:9090
 Grafana: http://localhost:3004
 
+## Demo Mode Notes
+
+> [!NOTE]
+> Email delivery is disabled by default in the Notifications Service.
+
+> [!TIP]
+> To enable real emails, configure EMAIL_USER and EMAIL_PASS in Docker or env files.
+
+> [!WARNING]
+> When not configured, the UI shows a demo notice and the service skips sending.
+
+## Notes and Tips
+
+> [!NOTE]
+> Start Docker Desktop before running the stack.
+
+> [!TIP]
+> Use the API Gateway at http://localhost:3000 for frontend requests.
+
+> [!IMPORTANT]
+> Do not commit real secrets to the repository.
+
 ## Documentation
 
 All documentation is in the `docs/` folder:
@@ -39,12 +61,12 @@ All documentation is in the `docs/` folder:
 
 ## System Status
 
-✅ **Docker**: 11 services operational
-✅ **Backend**: 19/19 unit tests passing
-✅ **Frontend**: React 18 + TypeScript, fully functional
-✅ **Databases**: PostgreSQL, MongoDB, Redis running
-✅ **Authentication**: JWT working, register/login tested
-✅ **Documentation**: Complete and professional
+- **Docker**: 11 services operational
+- **Backend**: 19/19 unit tests passing
+- **Frontend**: React 18 + TypeScript, fully functional
+- **Databases**: PostgreSQL, MongoDB, Redis running
+- **Authentication**: JWT working, register/login tested
+- **Documentation**: Complete and professional
 
 ## Technology Stack
 

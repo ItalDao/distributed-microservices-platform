@@ -331,6 +331,10 @@ const Dashboard: React.FC = () => {
         <div className="mt-12">
           <h2 className="text-3xl font-bold mb-6 text-gray-800">Notifications</h2>
 
+          <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 text-yellow-800 rounded">
+            Demo mode: email delivery is disabled unless credentials are configured.
+          </div>
+
           <div className="bg-white rounded-lg shadow-md p-6 mb-6">
             <h3 className="text-lg font-semibold text-gray-800 mb-4">Send Notification</h3>
 
