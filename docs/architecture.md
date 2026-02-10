@@ -181,7 +181,7 @@ db.payments.createIndex({ createdAt: -1 });
 
 | Method | Endpoint | Description | Auth Required |
 |--------|----------|-------------|---|
-| POST | `/payments/create` | Create new payment | Yes |
+| POST | `/payments` | Create new payment | Yes |
 | GET | `/payments` | List payments (with filters) | Yes |
 | GET | `/payments/:id` | Get payment details | Yes |
 | PUT | `/payments/:id/status` | Update payment status | Yes |
@@ -192,10 +192,13 @@ db.payments.createIndex({ createdAt: -1 });
 
 **Payment Status Lifecycle**:
 ```
-pending -> processing -> completed ✓
-       \-> failed ✗
+pending -> processing -> completed
+  \-> failed
 completed -> refunded (refund operation)
 ```
+
+> [!NOTE]
+> Use the API Gateway base URL in production environments.
 
 **Events Published**:
 

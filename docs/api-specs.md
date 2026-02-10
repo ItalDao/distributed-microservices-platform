@@ -4,6 +4,12 @@ Complete API documentation for all microservices in the Distributed Microservice
 
 **Base URL**: http://localhost:3000 (via API Gateway)
 
+> [!NOTE]
+> Use the API Gateway base URL for all client requests.
+
+> [!WARNING]
+> Protected endpoints require a valid JWT in the Authorization header.
+
 ---
 
 ## Table of Contents

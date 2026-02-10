@@ -1,5 +1,8 @@
 # Documentation Index
 
+> [!NOTE]
+> This index is the authoritative map of all project documentation.
+
 ## Core Documentation
 
 ### README.md

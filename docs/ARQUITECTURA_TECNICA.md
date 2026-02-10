@@ -4,13 +4,16 @@
 
 Este documento explica la arquitectura completa de una plataforma de microservicios production-ready con 3 servicios independientes, múltiples bases de datos y comunicación asíncrona.
 
+> [!NOTE]
+> El frontend corre en http://localhost:5173 en el entorno actual.
+
 ### Diagrama Arquitectónico
 
 ```
 Cliente (React)
      |
      v
-Frontend (Vite - localhost:5175)
+Frontend (Vite - localhost:5173)
      |
      v (HTTP/REST)
      |

@@ -40,7 +40,10 @@ curl http://localhost:3002/health  # Payments
 curl http://localhost:3003/health  # Notifications
 ```
 
-**All services running!** ✓
+**All services running!**
+
+> [!NOTE]
+> Status: Completed. Services verified via health checks.
 
 ---
 
@@ -93,14 +96,14 @@ curl -X POST http://localhost:3000/auth/login \
   }'
 
 # Create payment
-curl -X POST http://localhost:3000/payments/create \
+curl -X POST http://localhost:3000/payments \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "userId": "user-uuid",
     "amount": "99.99",
     "currency": "USD",
-    "method": "credit_card",
+    "paymentMethod": "credit_card",
     "description": "Purchase subscription"
   }'
 ```
@@ -295,15 +298,15 @@ See [docs/architecture.md#scalability-design](./docs/architecture.md#scalability
 
 ## What's Included
 
-- ✓ 4 microservices (Auth, Payments, Notifications, API Gateway)
-- ✓ Event-driven architecture with RabbitMQ
-- ✓ Polyglot persistence (PostgreSQL, MongoDB, Redis)
-- ✓ Complete monitoring (Prometheus, Grafana)
-- ✓ API rate limiting and authentication
-- ✓ Health checks and metrics
-- ✓ Comprehensive testing
-- ✓ Production-ready code
-- ✓ Complete documentation
+- 4 microservices (Auth, Payments, Notifications, API Gateway)
+- Event-driven architecture with RabbitMQ
+- Polyglot persistence (PostgreSQL, MongoDB, Redis)
+- Complete monitoring (Prometheus, Grafana)
+- API rate limiting and authentication
+- Health checks and metrics
+- Comprehensive testing
+- Production-ready code
+- Complete documentation
 
 ---
 
@@ -332,7 +335,8 @@ Now that you have the system running:
 - [ ] First API call successful
 - [ ] Tests passing
 
-**All done?** You're ready to explore! 🚀
+> [!TIP]
+> All done? You're ready to explore.
 
 ---
 

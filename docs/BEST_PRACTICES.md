@@ -1,5 +1,8 @@
 # Development Best Practices
 
+> [!IMPORTANT]
+> Apply these standards consistently across all services and the frontend.
+
 ## Code Quality Standards
 
 ### TypeScript Configuration

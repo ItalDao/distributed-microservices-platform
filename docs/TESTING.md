@@ -4,6 +4,9 @@
 
 All backend tests are fast, reliable, and comprehensive.
 
+> [!IMPORTANT]
+> Status: Completed. 19/19 backend unit tests pass.
+
 ### Auth Service Tests
 ```bash
 cd services/auth-service
@@ -63,6 +66,9 @@ services/auth-service/src/
 
 The frontend is fully functional and tested manually:
 
+> [!NOTE]
+> Playwright E2E smoke test is available for login + dashboard.
+
 ### Manual Testing Checklist
 ```
 Login Flow
@@ -104,6 +110,9 @@ npm run preview
 ```
 
 Frontend is fully functional at: http://localhost:5173
+
+> [!TIP]
+> For E2E: run `npm run test:e2e` or `npx playwright test e2e/auth.spec.ts --project=chromium`.
 
 ---
 

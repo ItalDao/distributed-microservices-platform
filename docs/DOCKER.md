@@ -21,6 +21,9 @@ docker-compose up -d
 
 Espera 2-3 minutos y accede a http://localhost:3000
 
+> [!NOTE]
+> Docker Desktop debe estar iniciado antes de levantar los servicios.
+
 ## Qué Levanta
 
 ```
@@ -78,7 +81,8 @@ docker-compose down -v
 | RabbitMQ | admin | admin123 |
 | Grafana | admin | admin123 |
 
-⚠️ Cambiar en `.env` antes de producción.
+> [!WARNING]
+> Cambiar credenciales en `.env` antes de producción.
 
 ## Troubleshooting
 

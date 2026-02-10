@@ -12,6 +12,9 @@ Each service requires specific environment variables for proper operation. Confi
 2. Environment variables (Docker, Kubernetes)
 3. Secrets management (production)
 
+> [!IMPORTANT]
+> Use placeholders in documentation. Store real secrets only in local .env or a secrets manager.
+
 ---
 
 ## Auth Service Configuration

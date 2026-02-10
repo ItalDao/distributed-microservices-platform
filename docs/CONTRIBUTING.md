@@ -2,6 +2,9 @@
 
 Thank you for your interest in contributing to the Distributed Microservices Platform! This document provides guidelines and instructions for contributing to this project.
 
+> [!NOTE]
+> Follow the Code of Conduct and use the standard workflow described below.
+
 ---
 
 ## Table of Contents

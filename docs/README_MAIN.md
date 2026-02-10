@@ -90,6 +90,15 @@ docker-compose logs -f
 
 **That's it!** All services are now running. See the [DOCKER.md](./DOCKER.md) for more details and troubleshooting.
 
+> [!NOTE]
+> Start Docker Desktop before running the stack.
+
+> [!TIP]
+> Use the API Gateway at http://localhost:3000 for frontend requests.
+
+> [!IMPORTANT]
+> Do not commit real secrets to the repository.
+
 ### Alternative: Local Development Setup
 
 If you prefer to run services locally (not with Docker):

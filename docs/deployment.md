@@ -4,6 +4,9 @@
 
 This guide covers deployment strategies for the Distributed Microservices Platform across different environments: development, staging, and production.
 
+> [!IMPORTANT]
+> Store production secrets in a secrets manager. Do not use placeholders in production.
+
 ---
 
 ## Environment Setup

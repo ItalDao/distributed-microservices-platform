@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file following the [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format and semantic versioning.
 
+> [!NOTE]
+> Entries marked as Unreleased should be finalized before tagging a release.
+
 ## [Unreleased]
 
 ### Added

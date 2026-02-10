@@ -4,6 +4,9 @@
 
 ### Production Ready
 
+> [!IMPORTANT]
+> Status: Completed and validated end-to-end (frontend, gateway, services, databases).
+
 **System Infrastructure:**
 - Docker Compose environment with 11 services
 - All microservices health checks operational
@@ -57,8 +60,11 @@ npm test -- --watch  # Watch mode
 cd frontend
 npm run dev
 # Open http://localhost:5173
-# Login: any credentials (dummy auth for demo)
+# Login: use registered credentials (JWT auth)
 ```
+
+> [!TIP]
+> If you don't have a user yet, register at POST /auth/register via the API Gateway.
 
 ### Check Service Health
 ```bash
@@ -280,7 +286,7 @@ docker-compose up -d
 - [ ] Deploy to cloud infrastructure
 
 **Medium Term:**
-- [ ] Add E2E tests with Cypress
+- [ ] Expand E2E coverage (Playwright baseline already in place)
 - [ ] Implement frontend testing with mock backend
 - [ ] Add API documentation with OpenAPI/Swagger
 
@@ -313,4 +319,5 @@ For issues or questions:
 4. Review CI/CD logs in GitHub Actions
 
 **Last Updated**: January 26, 2026
-**Project Status**: Production Ready ✅
+> [!IMPORTANT]
+> Project Status: Production Ready and validated.

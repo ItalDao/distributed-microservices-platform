@@ -1,6 +1,7 @@
 # Security - Secrets Management
 
-⚠️ **NUNCA commits credenciales reales al repositorio.**
+> [!WARNING]
+> NUNCA commits credenciales reales al repositorio.
 
 ## Credenciales Expuestas Detectadas
 
@@ -66,19 +67,22 @@ kubectl create secret generic db-secret \
 
 ## En Documentación
 
-### ✅ PERMITIDO (Ejemplos):
+### PERMITIDO (Ejemplos):
 ```
 DB_URL=postgresql://<USERNAME>:<PASSWORD>@<HOST>:5432/db
 JWT_SECRET=<GENERATE_SECURE_32_CHAR_SECRET>
 SMTP_PASSWORD=<YOUR_APP_PASSWORD>
 ```
 
-### ❌ PROHIBIDO (Credenciales reales):
+### PROHIBIDO (Credenciales reales):
 ```
 DB_URL=postgresql://user:myRealPassword@prod.example.com:5432/db
 JWT_SECRET=abc123xyz789abc123xyz789abc123xyz
 SMTP_PASSWORD=gmail_app_password_12345678901234567
 ```
+
+> [!IMPORTANT]
+> Usa siempre placeholders en documentación y ejemplos públicos.
 
 ## Checklist de Seguridad
 

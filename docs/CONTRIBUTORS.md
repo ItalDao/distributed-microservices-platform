@@ -2,6 +2,9 @@
 
 We appreciate all contributions to the Distributed Microservices Platform project. This file recognizes the individuals who have contributed to this project.
 
+> [!TIP]
+> Add yourself via Pull Request following the contribution guidelines.
+
 ## Project Maintainers
 
 - **Matias** ([@ItalDao](https://github.com/ItalDao))

@@ -2,6 +2,9 @@
 
 Common questions and answers about the Distributed Microservices Platform.
 
+> [!NOTE]
+> This FAQ reflects the current demo setup (local Docker + API Gateway).
+
 ---
 
 ## Table of Contents

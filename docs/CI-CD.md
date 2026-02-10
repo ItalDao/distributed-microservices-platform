@@ -4,6 +4,9 @@
 
 This project uses GitHub Actions for continuous integration and continuous deployment. The pipeline automatically runs tests, scans for security issues, and can deploy to production.
 
+> [!WARNING]
+> Deployment requires secrets configured in GitHub Actions.
+
 ## Automated Workflows
 
 ### 1. Tests Workflow (.github/workflows/tests.yml)

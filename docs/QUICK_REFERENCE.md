@@ -2,6 +2,9 @@
 
 Fast access to all documentation for the Distributed Microservices Platform.
 
+> [!TIP]
+> Use the API Gateway base URL for client integrations.
+
 ---
 
 ## Core Documentation
