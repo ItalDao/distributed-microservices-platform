@@ -61,7 +61,7 @@ async function bootstrap() {
   console.log(`
 ╔═══════════════════════════════════════════════════════════╗
 ║                                                           ║
-║          🚀 API GATEWAY IS RUNNING 🚀                    ║
+║          API GATEWAY IS RUNNING                           ║
 ║                                                           ║
 ║  Gateway:         http://localhost:${port}                    ║
 ║  Health Check:    http://localhost:${port}/health             ║
