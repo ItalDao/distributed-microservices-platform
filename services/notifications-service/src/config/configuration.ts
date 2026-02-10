@@ -6,7 +6,9 @@ export default () => ({
     password: process.env.REDIS_PASSWORD || 'redis123',
   },
   rabbitmq: {
-    url: `amqp://${process.env.RABBITMQ_USER || 'admin'}:${process.env.RABBITMQ_PASSWORD || 'admin123'}@${process.env.RABBITMQ_HOST || 'localhost'}:${process.env.RABBITMQ_PORT || 5672}`,
+    url:
+      process.env.RABBITMQ_URL ||
+      `amqp://${process.env.RABBITMQ_USER || 'admin'}:${process.env.RABBITMQ_PASSWORD || 'admin123'}@${process.env.RABBITMQ_HOST || 'localhost'}:${process.env.RABBITMQ_PORT || 5672}`,
   },
   email: {
     service: process.env.EMAIL_SERVICE || 'gmail',

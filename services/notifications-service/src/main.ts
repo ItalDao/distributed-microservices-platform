@@ -54,7 +54,7 @@ async function bootstrap() {
   });
 
   await app.startAllMicroservices();
-  console.log('🎧 Listening to RabbitMQ events...');
+  console.log('Listening to RabbitMQ events...');
 
   // Enable CORS
   app.enableCors({
@@ -76,10 +76,10 @@ async function bootstrap() {
   await app.listen(port);
 
   console.log(
-    `🚀 Notifications Service is running on: http://localhost:${port}`,
+    `Notifications Service is running on: http://localhost:${port}`,
   );
-  console.log(`📊 Metrics available at: http://localhost:${port}/metrics`);
-  console.log(`❤️  Health check at: http://localhost:${port}/health`);
+  console.log(`Metrics available at: http://localhost:${port}/metrics`);
+  console.log(`Health check at: http://localhost:${port}/health`);
 }
 
 bootstrap();

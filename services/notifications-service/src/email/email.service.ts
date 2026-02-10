@@ -35,10 +35,10 @@ export class EmailService {
 
     try {
       await this.transporter.sendMail(mailOptions);
-      console.log(`✅ Welcome email sent to ${email}`);
+      console.log(`Welcome email sent to ${email}`);
       return { success: true, message: 'Welcome email sent' };
     } catch (error) {
-      console.error('❌ Error sending welcome email:', error);
+      console.error('Error sending welcome email:', error);
       return { success: false, message: 'Failed to send email' };
     }
   }
@@ -64,10 +64,10 @@ export class EmailService {
 
     try {
       await this.transporter.sendMail(mailOptions);
-      console.log(`✅ Payment confirmation sent to ${email}`);
+      console.log(`Payment confirmation sent to ${email}`);
       return { success: true, message: 'Payment confirmation sent' };
     } catch (error) {
-      console.error('❌ Error sending payment confirmation:', error);
+      console.error('Error sending payment confirmation:', error);
       return { success: false, message: 'Failed to send email' };
     }
   }
@@ -84,7 +84,7 @@ export class EmailService {
       welcome: `
         <html>
           <body style="font-family: Arial, sans-serif; padding: 20px;">
-            <h1>Welcome {{firstName}} {{lastName}}! 🎉</h1>
+            <h1>Welcome {{firstName}} {{lastName}}!</h1>
             <p>Thank you for registering at our platform.</p>
             <p>Your account email: <strong>{{email}}</strong></p>
             <p>We're excited to have you on board!</p>
@@ -96,7 +96,7 @@ export class EmailService {
       'payment-confirmation': `
         <html>
           <body style="font-family: Arial, sans-serif; padding: 20px;">
-            <h1>Payment Confirmation ✅</h1>
+            <h1>Payment Confirmation</h1>
             <p>Your payment has been processed successfully!</p>
             <div style="background: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
               <p><strong>Amount:</strong> {{amount}} {{currency}}</p>
