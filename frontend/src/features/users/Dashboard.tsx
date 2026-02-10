@@ -1,15 +1,35 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth, useUsers } from '../../shared/hooks';
+import { useAuth, useUsers, usePayments, useNotifications } from '../../shared/hooks';
 
 const Dashboard: React.FC = () => {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const { users, isLoading, error, fetchUsers, deleteUser } = useUsers();
+  const {
+    payments,
+    isLoading: paymentsLoading,
+    error: paymentsError,
+    fetchPayments,
+  } = usePayments();
+  const {
+    stats,
+    isLoading: statsLoading,
+    error: statsError,
+    fetchStats,
+  } = useNotifications();
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchUsers();
   }, [fetchUsers]);
+
+  useEffect(() => {
+    fetchPayments(user?.id);
+  }, [fetchPayments, user?.id]);
+
+  useEffect(() => {
+    fetchStats();
+  }, [fetchStats]);
 
   const handleLogout = (): void => {
     logout();
@@ -92,6 +112,101 @@ const Dashboard: React.FC = () => {
             </table>
           </div>
         )}
+
+        {/* Payments Section */}
+        <div className="mt-12">
+          <h2 className="text-3xl font-bold mb-6 text-gray-800">Payments</h2>
+
+          {paymentsError && (
+            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+              {paymentsError}
+            </div>
+          )}
+
+          {paymentsLoading ? (
+            <div className="text-center py-8 text-gray-500">Loading payments...</div>
+          ) : payments.length === 0 ? (
+            <div className="text-center py-8 text-gray-500">No payments found</div>
+          ) : (
+            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+              <table className="w-full">
+                <thead className="bg-gray-200">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-gray-700 font-semibold">ID</th>
+                    <th className="px-6 py-3 text-left text-gray-700 font-semibold">Amount</th>
+                    <th className="px-6 py-3 text-left text-gray-700 font-semibold">Status</th>
+                    <th className="px-6 py-3 text-left text-gray-700 font-semibold">Method</th>
+                    <th className="px-6 py-3 text-left text-gray-700 font-semibold">Created</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {payments.map((payment) => {
+                    const paymentId = payment.id || payment._id || 'N/A';
+                    return (
+                      <tr key={paymentId} className="border-b hover:bg-gray-50">
+                        <td className="px-6 py-3 text-sm text-gray-600 font-mono">
+                          {paymentId !== 'N/A' ? `${paymentId.substring(0, 8)}...` : 'N/A'}
+                        </td>
+                        <td className="px-6 py-3 text-sm text-gray-600">
+                          {payment.amount} {payment.currency}
+                        </td>
+                        <td className="px-6 py-3 text-sm text-gray-600 capitalize">
+                          {payment.status}
+                        </td>
+                        <td className="px-6 py-3 text-sm text-gray-600 capitalize">
+                          {payment.paymentMethod.replace('_', ' ')}
+                        </td>
+                        <td className="px-6 py-3 text-sm text-gray-600">
+                          {payment.createdAt
+                            ? new Date(payment.createdAt).toLocaleDateString()
+                            : 'N/A'}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        {/* Notifications Section */}
+        <div className="mt-12">
+          <h2 className="text-3xl font-bold mb-6 text-gray-800">Notifications</h2>
+
+          {statsError && (
+            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+              {statsError}
+            </div>
+          )}
+
+          {statsLoading ? (
+            <div className="text-center py-8 text-gray-500">Loading stats...</div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="bg-white rounded-lg shadow-md p-6">
+                <div className="text-sm text-gray-500">Total Sent</div>
+                <div className="text-2xl font-bold text-gray-800">
+                  {stats?.totalSent ?? 0}
+                </div>
+              </div>
+              <div className="bg-white rounded-lg shadow-md p-6">
+                <div className="text-sm text-gray-500">Success Rate</div>
+                <div className="text-2xl font-bold text-gray-800">
+                  {stats?.successRate ?? 0}%
+                </div>
+              </div>
+              <div className="bg-white rounded-lg shadow-md p-6">
+                <div className="text-sm text-gray-500">Last Sent</div>
+                <div className="text-2xl font-bold text-gray-800">
+                  {stats?.lastSent
+                    ? new Date(stats.lastSent).toLocaleString()
+                    : 'N/A'}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
