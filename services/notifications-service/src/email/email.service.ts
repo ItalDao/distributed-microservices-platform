@@ -6,21 +6,41 @@ import { CacheService } from '../cache/cache.service';
 @Injectable()
 export class EmailService {
   private transporter: nodemailer.Transporter;
+  private emailEnabled: boolean;
 
   constructor(
     private configService: ConfigService,
     private cacheService: CacheService,
   ) {
-    this.transporter = nodemailer.createTransport({
-      service: this.configService.get<string>('email.service'),
-      auth: {
-        user: this.configService.get<string>('email.user'),
-        pass: this.configService.get<string>('email.pass'),
-      },
-    });
+    const emailUser = this.configService.get<string>('email.user');
+    const emailPass = this.configService.get<string>('email.pass');
+    const placeholderUser = 'your_email@gmail.com';
+    const placeholderPass = 'your_app_password';
+
+    this.emailEnabled = !!emailUser && !!emailPass &&
+      emailUser !== placeholderUser &&
+      emailPass !== placeholderPass;
+
+    if (this.emailEnabled) {
+      this.transporter = nodemailer.createTransport({
+        service: this.configService.get<string>('email.service'),
+        auth: {
+          user: emailUser,
+          pass: emailPass,
+        },
+      });
+    } else {
+      this.transporter = nodemailer.createTransport({
+        jsonTransport: true,
+      });
+    }
   }
 
   async sendWelcomeEmail(email: string, firstName: string, lastName: string) {
+    if (!this.emailEnabled) {
+      console.log(`Email not configured. Skipping welcome email for ${email}`);
+      return { success: true, message: 'Email skipped (not configured)' };
+    }
     const template = await this.getTemplate('welcome');
 
     const mailOptions = {
@@ -49,6 +69,12 @@ export class EmailService {
     currency: string,
     transactionId: string,
   ) {
+    if (!this.emailEnabled) {
+      console.log(
+        `Email not configured. Skipping payment confirmation for ${email}`,
+      );
+      return { success: true, message: 'Email skipped (not configured)' };
+    }
     const template = await this.getTemplate('payment-confirmation');
 
     const mailOptions = {
