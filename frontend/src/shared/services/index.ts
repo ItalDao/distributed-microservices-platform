@@ -1,5 +1,11 @@
 import { apiClient } from './apiClient';
-import { User, LoginRequest, AuthResponse } from '../types';
+import {
+  User,
+  LoginRequest,
+  AuthResponse,
+  Payment,
+  NotificationStats,
+} from '../types';
 
 export const authService = {
   login: async (credentials: LoginRequest): Promise<AuthResponse> => {
@@ -58,6 +64,21 @@ export const userService = {
 
   update: async (id: string, updates: Partial<User>): Promise<User> => {
     const { data } = await apiClient.put<User>(`/users/${id}`, updates);
+    return data;
+  },
+};
+
+export const paymentService = {
+  getAll: async (userId?: string): Promise<Payment[]> => {
+    const query = userId ? `?userId=${encodeURIComponent(userId)}` : '';
+    const { data } = await apiClient.get<Payment[]>(`/payments${query}`);
+    return data;
+  },
+};
+
+export const notificationsService = {
+  getStats: async (): Promise<NotificationStats> => {
+    const { data } = await apiClient.get<NotificationStats>('/notifications/stats');
     return data;
   },
 };
