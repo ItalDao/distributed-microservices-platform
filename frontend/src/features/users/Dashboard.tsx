@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth, useUsers, usePayments, useNotifications } from '../../shared/hooks';
-import { PaymentMethod } from '../../shared/types';
+import { PaymentMethod, NotificationType } from '../../shared/types';
 
 const Dashboard: React.FC = () => {
   const { logout, user } = useAuth();
@@ -18,6 +18,8 @@ const Dashboard: React.FC = () => {
     isLoading: statsLoading,
     error: statsError,
     fetchStats,
+    isSending: notificationSending,
+    sendNotification,
   } = useNotifications();
   const navigate = useNavigate();
 
@@ -26,6 +28,15 @@ const Dashboard: React.FC = () => {
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('credit_card');
   const [paymentDescription, setPaymentDescription] = useState('');
   const [paymentSubmitting, setPaymentSubmitting] = useState(false);
+
+  const [notificationEmail, setNotificationEmail] = useState('');
+  const [notificationType, setNotificationType] = useState<NotificationType>('welcome');
+  const [notificationFirstName, setNotificationFirstName] = useState('');
+  const [notificationLastName, setNotificationLastName] = useState('');
+  const [notificationAmount, setNotificationAmount] = useState('');
+  const [notificationCurrency, setNotificationCurrency] = useState('USD');
+  const [notificationTransactionId, setNotificationTransactionId] = useState('');
+  const [notificationMessage, setNotificationMessage] = useState<string | null>(null);
 
   const canCreatePayment = useMemo(() => {
     const amount = Number(paymentAmount);
@@ -43,6 +54,12 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     fetchStats();
   }, [fetchStats]);
+
+  useEffect(() => {
+    if (user?.email) {
+      setNotificationEmail(user.email);
+    }
+  }, [user?.email]);
 
   const handleLogout = (): void => {
     logout();
@@ -78,6 +95,49 @@ const Dashboard: React.FC = () => {
       console.error('Failed to create payment');
     } finally {
       setPaymentSubmitting(false);
+    }
+  };
+
+  const handleSendNotification = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setNotificationMessage(null);
+
+    try {
+      const payloadBase = {
+        email: notificationEmail,
+        type: notificationType,
+      } as const;
+
+      const payload =
+        notificationType === 'welcome'
+          ? {
+              ...payloadBase,
+              data: {
+                firstName: notificationFirstName,
+                lastName: notificationLastName,
+              },
+            }
+          : notificationType === 'payment-confirmation'
+            ? {
+                ...payloadBase,
+                data: {
+                  amount: Number(notificationAmount),
+                  currency: notificationCurrency,
+                  transactionId: notificationTransactionId,
+                },
+              }
+            : {
+                ...payloadBase,
+                data: {
+                  message: 'Custom notification',
+                },
+              };
+
+      const response = await sendNotification(payload);
+      setNotificationMessage(response.message);
+      fetchStats();
+    } catch {
+      setNotificationMessage('Failed to send notification');
     }
   };
 
@@ -270,6 +330,112 @@ const Dashboard: React.FC = () => {
         {/* Notifications Section */}
         <div className="mt-12">
           <h2 className="text-3xl font-bold mb-6 text-gray-800">Notifications</h2>
+
+          <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">Send Notification</h3>
+
+            {notificationMessage && (
+              <div className="mb-4 p-3 bg-blue-50 border border-blue-200 text-blue-700 rounded">
+                {notificationMessage}
+              </div>
+            )}
+
+            <form onSubmit={handleSendNotification} className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="flex flex-col">
+                <label className="text-sm text-gray-600 mb-1">Email</label>
+                <input
+                  type="email"
+                  value={notificationEmail}
+                  onChange={(e) => setNotificationEmail(e.target.value)}
+                  className="border border-gray-300 rounded px-3 py-2"
+                  required
+                />
+              </div>
+              <div className="flex flex-col">
+                <label className="text-sm text-gray-600 mb-1">Type</label>
+                <select
+                  value={notificationType}
+                  onChange={(e) => setNotificationType(e.target.value as NotificationType)}
+                  className="border border-gray-300 rounded px-3 py-2"
+                >
+                  <option value="welcome">Welcome</option>
+                  <option value="payment-confirmation">Payment Confirmation</option>
+                </select>
+              </div>
+              <div className="flex flex-col">
+                <label className="text-sm text-gray-600 mb-1">Currency</label>
+                <input
+                  type="text"
+                  value={notificationCurrency}
+                  onChange={(e) => setNotificationCurrency(e.target.value.toUpperCase())}
+                  className="border border-gray-300 rounded px-3 py-2"
+                  disabled={notificationType !== 'payment-confirmation'}
+                />
+              </div>
+
+              {notificationType === 'welcome' && (
+                <>
+                  <div className="flex flex-col">
+                    <label className="text-sm text-gray-600 mb-1">First Name</label>
+                    <input
+                      type="text"
+                      value={notificationFirstName}
+                      onChange={(e) => setNotificationFirstName(e.target.value)}
+                      className="border border-gray-300 rounded px-3 py-2"
+                      required
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="text-sm text-gray-600 mb-1">Last Name</label>
+                    <input
+                      type="text"
+                      value={notificationLastName}
+                      onChange={(e) => setNotificationLastName(e.target.value)}
+                      className="border border-gray-300 rounded px-3 py-2"
+                      required
+                    />
+                  </div>
+                </>
+              )}
+
+              {notificationType === 'payment-confirmation' && (
+                <>
+                  <div className="flex flex-col">
+                    <label className="text-sm text-gray-600 mb-1">Amount</label>
+                    <input
+                      type="number"
+                      min="0.01"
+                      step="0.01"
+                      value={notificationAmount}
+                      onChange={(e) => setNotificationAmount(e.target.value)}
+                      className="border border-gray-300 rounded px-3 py-2"
+                      required
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="text-sm text-gray-600 mb-1">Transaction ID</label>
+                    <input
+                      type="text"
+                      value={notificationTransactionId}
+                      onChange={(e) => setNotificationTransactionId(e.target.value)}
+                      className="border border-gray-300 rounded px-3 py-2"
+                      required
+                    />
+                  </div>
+                </>
+              )}
+
+              <div className="md:col-span-3 flex justify-end">
+                <button
+                  type="submit"
+                  disabled={notificationSending}
+                  className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 disabled:opacity-50 transition"
+                >
+                  {notificationSending ? 'Sending...' : 'Send Notification'}
+                </button>
+              </div>
+            </form>
+          </div>
 
           {statsError && (
             <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">

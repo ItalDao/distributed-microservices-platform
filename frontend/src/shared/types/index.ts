@@ -57,3 +57,23 @@ export interface NotificationStats {
   successRate: number;
   lastSent: string;
 }
+
+export type NotificationType = 'welcome' | 'payment-confirmation' | 'custom';
+
+export interface NotificationSendRequest {
+  email: string;
+  type: NotificationType;
+  data?: {
+    firstName?: string;
+    lastName?: string;
+    amount?: number;
+    currency?: string;
+    transactionId?: string;
+    message?: string;
+  };
+}
+
+export interface NotificationSendResponse {
+  success: boolean;
+  message: string;
+}

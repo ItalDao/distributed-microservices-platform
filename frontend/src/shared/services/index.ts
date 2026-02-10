@@ -5,6 +5,8 @@ import {
   AuthResponse,
   Payment,
   NotificationStats,
+  NotificationSendRequest,
+  NotificationSendResponse,
 } from '../types';
 
 export const authService = {
@@ -85,6 +87,15 @@ export const paymentService = {
 export const notificationsService = {
   getStats: async (): Promise<NotificationStats> => {
     const { data } = await apiClient.get<NotificationStats>('/notifications/stats');
+    return data;
+  },
+  send: async (
+    payload: NotificationSendRequest,
+  ): Promise<NotificationSendResponse> => {
+    const { data } = await apiClient.post<NotificationSendResponse>(
+      '/notifications/send',
+      payload,
+    );
     return data;
   },
 };
