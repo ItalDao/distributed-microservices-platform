@@ -7,6 +7,9 @@ interface UsePaymentsReturn {
   isLoading: boolean;
   error: string | null;
   fetchPayments: (userId?: string) => Promise<void>;
+  createPayment: (
+    payload: Omit<Payment, 'id' | '_id' | 'status' | 'createdAt' | 'updatedAt'>,
+  ) => Promise<Payment>;
   refetch: (userId?: string) => Promise<void>;
 }
 
@@ -29,11 +32,28 @@ export const usePayments = (): UsePaymentsReturn => {
     }
   }, []);
 
+  const createPayment = useCallback(
+    async (payload: Omit<Payment, 'id' | '_id' | 'status' | 'createdAt' | 'updatedAt'>) => {
+      setError(null);
+      try {
+        const created = await paymentService.create(payload);
+        setPayments((prev) => [created, ...prev]);
+        return created;
+      } catch (err: any) {
+        const message = err.response?.data?.message || 'Failed to create payment';
+        setError(message);
+        throw err;
+      }
+    },
+    [],
+  );
+
   return {
     payments,
     isLoading,
     error,
     fetchPayments,
+    createPayment,
     refetch: fetchPayments,
   };
 };

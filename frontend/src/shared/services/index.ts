@@ -74,6 +74,12 @@ export const paymentService = {
     const { data } = await apiClient.get<Payment[]>(`/payments${query}`);
     return data;
   },
+  create: async (
+    payload: Omit<Payment, 'id' | '_id' | 'status' | 'createdAt' | 'updatedAt'>,
+  ): Promise<Payment> => {
+    const { data } = await apiClient.post<Payment>('/payments', payload);
+    return data;
+  },
 };
 
 export const notificationsService = {
