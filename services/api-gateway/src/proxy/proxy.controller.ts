@@ -29,13 +29,13 @@ export class ProxyController {
     return this.forwardToService('auth', '/auth/login', req, res);
   }
 
-  @All('auth/:path(*)')
+  @All('auth/*path')
   async authRoutes(@Req() req: Request, @Res() res: Response) {
     const path = req.path;
     return this.forwardToService('auth', path, req, res);
   }
 
-  @All('users/:path(*)')
+  @All('users/*path')
   async usersRoutes(@Req() req: Request, @Res() res: Response) {
     const path = req.path;
     return this.forwardToService('auth', path, req, res);
@@ -47,7 +47,7 @@ export class ProxyController {
   }
 
   // Payments Service Routes
-  @All('payments/:path(*)')
+  @All('payments/*path')
   async paymentsRoutes(@Req() req: Request, @Res() res: Response) {
     const path = req.path;
     return this.forwardToService('payments', path, req, res);
@@ -59,7 +59,7 @@ export class ProxyController {
   }
 
   // Notifications Service Routes
-  @All('notifications/:path(*)')
+  @All('notifications/*path')
   async notificationsRoutes(@Req() req: Request, @Res() res: Response) {
     const path = req.path;
     return this.forwardToService('notifications', path, req, res);
