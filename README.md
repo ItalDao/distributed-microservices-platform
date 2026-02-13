@@ -24,6 +24,19 @@ Notifications Service: http://localhost:3003
 Prometheus: http://localhost:9090
 Grafana: http://localhost:3004
 
+## Deploy básico (local)
+
+```bash
+cd infrastructure
+docker-compose up -d --build
+```
+
+> [!NOTE]
+> Espera 2-3 minutos antes de abrir el frontend.
+
+> [!TIP]
+> Usa el API Gateway en http://localhost:3000 para todas las llamadas del cliente.
+
 ## Demo Mode Notes
 
 > [!NOTE]

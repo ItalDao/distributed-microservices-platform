@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth, useUsers, usePayments, useNotifications } from '../../shared/hooks';
 import { PaymentMethod, NotificationType } from '../../shared/types';
+import { ui } from '../../shared/i18n';
 
 const Dashboard: React.FC = () => {
   const { logout, user } = useAuth();
@@ -67,12 +68,12 @@ const Dashboard: React.FC = () => {
   };
 
   const handleDelete = async (id: string): Promise<void> => {
-    if (!window.confirm('Are you sure you want to delete this user?')) return;
+    if (!window.confirm(ui.usersDeleteConfirm)) return;
 
     try {
       await deleteUser(id);
     } catch {
-      console.error('Failed to delete user');
+      console.error(ui.usersDeleteError);
     }
   };
 
@@ -92,7 +93,7 @@ const Dashboard: React.FC = () => {
       setPaymentAmount('');
       setPaymentDescription('');
     } catch {
-      console.error('Failed to create payment');
+      console.error('No se pudo crear el pago');
     } finally {
       setPaymentSubmitting(false);
     }
@@ -137,7 +138,7 @@ const Dashboard: React.FC = () => {
       setNotificationMessage(response.message);
       fetchStats();
     } catch {
-      setNotificationMessage('Failed to send notification');
+      setNotificationMessage(ui.notificationsSendError);
     }
   };
 
@@ -145,18 +146,18 @@ const Dashboard: React.FC = () => {
     <div className="min-h-screen bg-gray-100">
       {/* Navbar */}
       <nav className="bg-white shadow-md p-4 flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-blue-600">Dashboard</h1>
+        <h1 className="text-2xl font-bold text-blue-600">{ui.appTitle}</h1>
         <button
           onClick={handleLogout}
           className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
         >
-          Logout
+          {ui.logout}
         </button>
       </nav>
 
       {/* Main Content */}
       <div className="p-8">
-        <h2 className="text-3xl font-bold mb-6 text-gray-800">Users Management</h2>
+        <h2 className="text-3xl font-bold mb-6 text-gray-800">{ui.usersTitle}</h2>
 
         {error && (
           <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
@@ -165,19 +166,19 @@ const Dashboard: React.FC = () => {
         )}
 
         {isLoading ? (
-          <div className="text-center py-8 text-gray-500">Loading users...</div>
+          <div className="text-center py-8 text-gray-500">{ui.usersLoading}</div>
         ) : users.length === 0 ? (
-          <div className="text-center py-8 text-gray-500">No users found</div>
+          <div className="text-center py-8 text-gray-500">{ui.usersEmpty}</div>
         ) : (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <table className="w-full">
               <thead className="bg-gray-200">
                 <tr>
-                  <th className="px-6 py-3 text-left text-gray-700 font-semibold">ID</th>
-                  <th className="px-6 py-3 text-left text-gray-700 font-semibold">Email</th>
-                  <th className="px-6 py-3 text-left text-gray-700 font-semibold">Name</th>
-                  <th className="px-6 py-3 text-left text-gray-700 font-semibold">Created</th>
-                  <th className="px-6 py-3 text-center text-gray-700 font-semibold">Actions</th>
+                  <th className="px-6 py-3 text-left text-gray-700 font-semibold">{ui.usersTable.id}</th>
+                  <th className="px-6 py-3 text-left text-gray-700 font-semibold">{ui.usersTable.email}</th>
+                  <th className="px-6 py-3 text-left text-gray-700 font-semibold">{ui.usersTable.name}</th>
+                  <th className="px-6 py-3 text-left text-gray-700 font-semibold">{ui.usersTable.created}</th>
+                  <th className="px-6 py-3 text-center text-gray-700 font-semibold">{ui.usersTable.actions}</th>
                 </tr>
               </thead>
               <tbody>
@@ -198,7 +199,7 @@ const Dashboard: React.FC = () => {
                         onClick={() => handleDelete(user.id)}
                         className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600 transition"
                       >
-                        Delete
+                        {ui.usersTable.delete}
                       </button>
                     </td>
                   </tr>
@@ -210,13 +211,13 @@ const Dashboard: React.FC = () => {
 
         {/* Payments Section */}
         <div className="mt-12">
-          <h2 className="text-3xl font-bold mb-6 text-gray-800">Payments</h2>
+          <h2 className="text-3xl font-bold mb-6 text-gray-800">{ui.paymentsTitle}</h2>
 
           <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Create Payment</h3>
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">{ui.paymentsCreateTitle}</h3>
             <form onSubmit={handleCreatePayment} className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="flex flex-col">
-                <label className="text-sm text-gray-600 mb-1">Amount</label>
+                <label className="text-sm text-gray-600 mb-1">{ui.paymentsFields.amount}</label>
                 <input
                   type="number"
                   min="0.01"
@@ -229,7 +230,7 @@ const Dashboard: React.FC = () => {
                 />
               </div>
               <div className="flex flex-col">
-                <label className="text-sm text-gray-600 mb-1">Currency</label>
+                <label className="text-sm text-gray-600 mb-1">{ui.paymentsFields.currency}</label>
                 <input
                   type="text"
                   value={paymentCurrency}
@@ -240,26 +241,26 @@ const Dashboard: React.FC = () => {
                 />
               </div>
               <div className="flex flex-col">
-                <label className="text-sm text-gray-600 mb-1">Method</label>
+                <label className="text-sm text-gray-600 mb-1">{ui.paymentsFields.method}</label>
                 <select
                   value={paymentMethod}
                   onChange={(e) => setPaymentMethod(e.target.value as PaymentMethod)}
                   className="border border-gray-300 rounded px-3 py-2"
                 >
-                  <option value="credit_card">Credit Card</option>
-                  <option value="debit_card">Debit Card</option>
-                  <option value="paypal">PayPal</option>
-                  <option value="bank_transfer">Bank Transfer</option>
+                  <option value="credit_card">{ui.paymentsMethodLabels.credit_card}</option>
+                  <option value="debit_card">{ui.paymentsMethodLabels.debit_card}</option>
+                  <option value="paypal">{ui.paymentsMethodLabels.paypal}</option>
+                  <option value="bank_transfer">{ui.paymentsMethodLabels.bank_transfer}</option>
                 </select>
               </div>
               <div className="flex flex-col">
-                <label className="text-sm text-gray-600 mb-1">Description</label>
+                <label className="text-sm text-gray-600 mb-1">{ui.paymentsFields.description}</label>
                 <input
                   type="text"
                   value={paymentDescription}
                   onChange={(e) => setPaymentDescription(e.target.value)}
                   className="border border-gray-300 rounded px-3 py-2"
-                  placeholder="Demo payment"
+                  placeholder="Pago de demostración"
                 />
               </div>
               <div className="md:col-span-4 flex justify-end">
@@ -268,7 +269,7 @@ const Dashboard: React.FC = () => {
                   disabled={!canCreatePayment || paymentSubmitting}
                   className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50 transition"
                 >
-                  {paymentSubmitting ? 'Creating...' : 'Create Payment'}
+                  {paymentSubmitting ? ui.paymentsButtonLoading : ui.paymentsButton}
                 </button>
               </div>
             </form>
@@ -281,24 +282,26 @@ const Dashboard: React.FC = () => {
           )}
 
           {paymentsLoading ? (
-            <div className="text-center py-8 text-gray-500">Loading payments...</div>
+            <div className="text-center py-8 text-gray-500">{ui.paymentsLoading}</div>
           ) : payments.length === 0 ? (
-            <div className="text-center py-8 text-gray-500">No payments found</div>
+            <div className="text-center py-8 text-gray-500">{ui.paymentsEmpty}</div>
           ) : (
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               <table className="w-full">
                 <thead className="bg-gray-200">
                   <tr>
-                    <th className="px-6 py-3 text-left text-gray-700 font-semibold">ID</th>
-                    <th className="px-6 py-3 text-left text-gray-700 font-semibold">Amount</th>
-                    <th className="px-6 py-3 text-left text-gray-700 font-semibold">Status</th>
-                    <th className="px-6 py-3 text-left text-gray-700 font-semibold">Method</th>
-                    <th className="px-6 py-3 text-left text-gray-700 font-semibold">Created</th>
+                    <th className="px-6 py-3 text-left text-gray-700 font-semibold">{ui.paymentsTable.id}</th>
+                    <th className="px-6 py-3 text-left text-gray-700 font-semibold">{ui.paymentsTable.amount}</th>
+                    <th className="px-6 py-3 text-left text-gray-700 font-semibold">{ui.paymentsTable.status}</th>
+                    <th className="px-6 py-3 text-left text-gray-700 font-semibold">{ui.paymentsTable.method}</th>
+                    <th className="px-6 py-3 text-left text-gray-700 font-semibold">{ui.paymentsTable.created}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {payments.map((payment) => {
                     const paymentId = payment.id || payment._id || 'N/A';
+                    const methodLabel = ui.paymentsMethodLabels[payment.paymentMethod] || payment.paymentMethod;
+                    const statusLabel = ui.paymentsStatusLabels[payment.status] || payment.status;
                     return (
                       <tr key={paymentId} className="border-b hover:bg-gray-50">
                         <td className="px-6 py-3 text-sm text-gray-600 font-mono">
@@ -308,10 +311,10 @@ const Dashboard: React.FC = () => {
                           {payment.amount} {payment.currency}
                         </td>
                         <td className="px-6 py-3 text-sm text-gray-600 capitalize">
-                          {payment.status}
+                          {statusLabel}
                         </td>
                         <td className="px-6 py-3 text-sm text-gray-600 capitalize">
-                          {payment.paymentMethod.replace('_', ' ')}
+                          {methodLabel}
                         </td>
                         <td className="px-6 py-3 text-sm text-gray-600">
                           {payment.createdAt
@@ -329,14 +332,14 @@ const Dashboard: React.FC = () => {
 
         {/* Notifications Section */}
         <div className="mt-12">
-          <h2 className="text-3xl font-bold mb-6 text-gray-800">Notifications</h2>
+          <h2 className="text-3xl font-bold mb-6 text-gray-800">{ui.notificationsTitle}</h2>
 
           <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 text-yellow-800 rounded">
-            Demo mode: email delivery is disabled unless credentials are configured.
+            {ui.notificationsDemo}
           </div>
 
           <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Send Notification</h3>
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">{ui.notificationsSendTitle}</h3>
 
             {notificationMessage && (
               <div className="mb-4 p-3 bg-blue-50 border border-blue-200 text-blue-700 rounded">
@@ -346,7 +349,7 @@ const Dashboard: React.FC = () => {
 
             <form onSubmit={handleSendNotification} className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="flex flex-col">
-                <label className="text-sm text-gray-600 mb-1">Email</label>
+                <label className="text-sm text-gray-600 mb-1">{ui.notificationsFields.email}</label>
                 <input
                   type="email"
                   value={notificationEmail}
@@ -356,18 +359,18 @@ const Dashboard: React.FC = () => {
                 />
               </div>
               <div className="flex flex-col">
-                <label className="text-sm text-gray-600 mb-1">Type</label>
+                <label className="text-sm text-gray-600 mb-1">{ui.notificationsFields.type}</label>
                 <select
                   value={notificationType}
                   onChange={(e) => setNotificationType(e.target.value as NotificationType)}
                   className="border border-gray-300 rounded px-3 py-2"
                 >
-                  <option value="welcome">Welcome</option>
-                  <option value="payment-confirmation">Payment Confirmation</option>
+                  <option value="welcome">{ui.notificationsTypeLabels.welcome}</option>
+                  <option value="payment-confirmation">{ui.notificationsTypeLabels['payment-confirmation']}</option>
                 </select>
               </div>
               <div className="flex flex-col">
-                <label className="text-sm text-gray-600 mb-1">Currency</label>
+                <label className="text-sm text-gray-600 mb-1">{ui.notificationsFields.currency}</label>
                 <input
                   type="text"
                   value={notificationCurrency}
@@ -380,7 +383,7 @@ const Dashboard: React.FC = () => {
               {notificationType === 'welcome' && (
                 <>
                   <div className="flex flex-col">
-                    <label className="text-sm text-gray-600 mb-1">First Name</label>
+                    <label className="text-sm text-gray-600 mb-1">{ui.notificationsFields.firstName}</label>
                     <input
                       type="text"
                       value={notificationFirstName}
@@ -390,7 +393,7 @@ const Dashboard: React.FC = () => {
                     />
                   </div>
                   <div className="flex flex-col">
-                    <label className="text-sm text-gray-600 mb-1">Last Name</label>
+                    <label className="text-sm text-gray-600 mb-1">{ui.notificationsFields.lastName}</label>
                     <input
                       type="text"
                       value={notificationLastName}
@@ -405,7 +408,7 @@ const Dashboard: React.FC = () => {
               {notificationType === 'payment-confirmation' && (
                 <>
                   <div className="flex flex-col">
-                    <label className="text-sm text-gray-600 mb-1">Amount</label>
+                    <label className="text-sm text-gray-600 mb-1">{ui.notificationsFields.amount}</label>
                     <input
                       type="number"
                       min="0.01"
@@ -417,7 +420,7 @@ const Dashboard: React.FC = () => {
                     />
                   </div>
                   <div className="flex flex-col">
-                    <label className="text-sm text-gray-600 mb-1">Transaction ID</label>
+                    <label className="text-sm text-gray-600 mb-1">{ui.notificationsFields.transactionId}</label>
                     <input
                       type="text"
                       value={notificationTransactionId}
@@ -435,7 +438,7 @@ const Dashboard: React.FC = () => {
                   disabled={notificationSending}
                   className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 disabled:opacity-50 transition"
                 >
-                  {notificationSending ? 'Sending...' : 'Send Notification'}
+                  {notificationSending ? ui.notificationsSendLoading : ui.notificationsSendButton}
                 </button>
               </div>
             </form>
@@ -448,23 +451,23 @@ const Dashboard: React.FC = () => {
           )}
 
           {statsLoading ? (
-            <div className="text-center py-8 text-gray-500">Loading stats...</div>
+            <div className="text-center py-8 text-gray-500">{ui.notificationsLoading}</div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="bg-white rounded-lg shadow-md p-6">
-                <div className="text-sm text-gray-500">Total Sent</div>
+                <div className="text-sm text-gray-500">{ui.notificationsStats.totalSent}</div>
                 <div className="text-2xl font-bold text-gray-800">
                   {stats?.totalSent ?? 0}
                 </div>
               </div>
               <div className="bg-white rounded-lg shadow-md p-6">
-                <div className="text-sm text-gray-500">Success Rate</div>
+                <div className="text-sm text-gray-500">{ui.notificationsStats.successRate}</div>
                 <div className="text-2xl font-bold text-gray-800">
                   {stats?.successRate ?? 0}%
                 </div>
               </div>
               <div className="bg-white rounded-lg shadow-md p-6">
-                <div className="text-sm text-gray-500">Last Sent</div>
+                <div className="text-sm text-gray-500">{ui.notificationsStats.lastSent}</div>
                 <div className="text-2xl font-bold text-gray-800">
                   {stats?.lastSent
                     ? new Date(stats.lastSent).toLocaleString()
